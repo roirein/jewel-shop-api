@@ -2,19 +2,22 @@ const express = require("express");
 const mongoose = require("mongoose");
 const Employee = require("./models/employee");
 require("dotenv").config();
+const employeeRouter = require("./routes/employee");
+
 const app = express();
+app.use(express.json());
 
 const port = process.env.PORT || 3000;
 
-mongoose.connect(process.env.DB_URL).then(() => {
-  // Employee.create({
-  //   firstName: "Roi",
-  //   lastName: "Reinshtein",
-  //   email: "roirein@gmail.com",
-  //   phoneNumber: "0547224004",
-  //   password: "Roi6431368",
-  //   role: "manager",
-  // }).then((res) => console.log(res));
+mongoose.connect(process.env.DB_URL);
+
+app.use("/employee", employeeRouter);
+
+app.use((err, req, res, next) => {
+  res.status(err.statusCode || 500).json({
+    status: err.status || "error",
+    message: err.message,
+  });
 });
 
 app.listen(port, () => {
