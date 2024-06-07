@@ -3,9 +3,11 @@ const mongoose = require("mongoose");
 const Employee = require("./models/employee");
 require("dotenv").config();
 const employeeRouter = require("./routes/employee");
+const morgan = require("morgan");
 
 const app = express();
 app.use(express.json());
+app.use(morgan("dev"));
 
 const port = process.env.PORT || 3000;
 
