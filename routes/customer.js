@@ -1,7 +1,7 @@
 const express = require("express");
 const ControllerFactory = require("../controller/controller-factory");
 const validateRequest = require("../middlewares/validation");
-const { customerSchema } = require("../validations/user");
+const { customerSchema, baseUserSchema } = require("../validations/user");
 
 const customerController = ControllerFactory.createCustomerController();
 const router = express.Router();
@@ -20,6 +20,10 @@ router.get("/:customerId", (req, res, next) =>
 
 router.delete("/:customerId", (req, res, next) =>
   customerController.deleteCustomer(req, res, next)
+);
+
+router.put("/:customerId", validateRequest(baseUserSchema), (req, res, next) =>
+  customerController.updateCustomer(req, res, next)
 );
 
 module.exports = router;

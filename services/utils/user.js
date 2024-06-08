@@ -42,7 +42,22 @@ const generatePassword = () => {
   return password;
 };
 
+const checkUniqneUpdateData = async (resourceManager, userId, data) => {
+  const query = {
+    _id: { $ne: userId },
+    $or: [{ email: data.email }, { phoneNumber: data.phoneNumber }],
+  };
+  if (!!(await resourceManager.findOne(RESOURCES_TYPES.USER, query))) {
+    throw new HTTPError(
+      "Your email or phone number already exists in the system",
+      "fail",
+      409
+    );
+  }
+};
+
 module.exports = {
   checkUserExists,
   generatePassword,
+  checkUniqneUpdateData,
 };

@@ -2,9 +2,9 @@ const fs = require("fs").promises;
 const HTTPError = require("../errors/http-error");
 const RESOURCES_TYPES = require("../resource-manager/definitions");
 const {
-  isUserExists,
   generatePassword,
   checkUserExists,
+  checkUniqneUpdateData,
 } = require("./utils/user");
 const Service = require("./service");
 const { ROLES } = require("../consts/employees");
@@ -72,17 +72,7 @@ class EmployeeService extends Service {
 
   async updateEmployee(id, data) {
     try {
-      const query = {
-        _id: { $ne: id },
-        $or: [{ email: data.email }, { phoneNumber: data.phoneNumber }],
-      };
-      if (!!(await this.resourceManager.findOne(this.resourceType, query))) {
-        throw new HTTPError(
-          "Your email or phone number already exists in the system",
-          "fail",
-          409
-        );
-      }
+      await checkUniqneUpdateData(this.resourceManager, id, data);
       const fields = "_id firstName lastName email phoneNumber role imagePath";
       const updatedUser = await this._update(id, data, fields);
       if (!updatedUser) {
@@ -90,6 +80,9 @@ class EmployeeService extends Service {
       }
       return updatedUser;
     } catch (err) {
+      if (err.type && err.type === "DBError") {
+        throw err.toHTTPError();
+      }
       throw err;
     }
   }

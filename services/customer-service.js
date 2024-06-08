@@ -2,8 +2,8 @@ const HTTPError = require("../errors/http-error");
 const RESOURCES_TYPES = require("../resource-manager/definitions");
 const Service = require("./service");
 const {
-  isUserExists,
   checkUserExists,
+  checkUniqneUpdateData,
   generatePassword,
 } = require("./utils/user");
 
@@ -70,6 +70,23 @@ class CustomerService extends Service {
         throw new HTTPError("No customer matching the given id", "fail", 404);
       }
     } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateCustomer(id, data) {
+    try {
+      await checkUniqneUpdateData(this.resourceManager, id, data);
+      const fields = "_id firstName lastName email phoneNumber imagePath";
+      const updatedUser = await this._update(id, data, fields);
+      if (!updatedUser) {
+        throw new HTTPError("No customer matching the given id", "fail", 404);
+      }
+      return updatedUser;
+    } catch (err) {
+      if (err.type && err.type === "DBError") {
+        throw err.toHTTPError();
+      }
       throw err;
     }
   }
