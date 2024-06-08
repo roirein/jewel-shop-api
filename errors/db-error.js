@@ -5,15 +5,23 @@ class DBError extends Error {
     super();
     console.log(error.code);
     this.type = "DBError";
+    this.subtype = this.#setSubType(error);
+    this.data = this.#setData(error);
+  }
+
+  #setSubType(error) {
     if (error.name) {
-      this.subtype = error.name;
+      return error.name;
     }
     if (error.code) {
-      if (error.code === 11000) {
-        this.subtype = "DuplicationError";
+      switch (code) {
+        case 11000:
+          return "DuplicationError";
+        default:
+          return "Unknown";
       }
     }
-    this.data = this.#setData(error);
+    return "Unknown";
   }
 
   #setData(error) {
@@ -27,20 +35,26 @@ class DBError extends Error {
   }
 
   toHTTPError() {
-    if (this.subtype === "ValidationError") {
-      return new HTTPError(
-        "Some of the input values are incorrect",
-        "fail",
-        400,
-        this.data
-      );
-    }
-    if (this.subtype === "DuplicationError") {
-      return new HTTPError(
-        "Some of the resource data already exists",
-        "fail",
-        409
-      );
+    switch (this.subtype) {
+      case "ValidationError": {
+        return new HTTPError(
+          "Some of the input values are incorrect",
+          "fail",
+          400,
+          this.data
+        );
+      }
+      case "DuplicationError": {
+        return new HTTPError(
+          "Some of the resource data already exists",
+          "fail",
+          409
+        );
+      }
+      case "Unknown":
+        return new HTTPError("Server Error", "error", 500);
+      default:
+        return new HTTPError("Server Error", "error", 500);
     }
   }
 }

@@ -83,21 +83,6 @@ class ResourceManager {
       throw new DBError(err);
     }
   }
-
-  #handleDBError(error) {
-    const errorsObject = {};
-    let result = {};
-    if (error.name === "ValidationError") {
-      Object.values(error.errors).forEach((value) => {
-        errorsObject[value.properties.path] = value.properties.message;
-      });
-      result = {
-        type: "DBError",
-        subType: error.name,
-        data: errorsObject,
-      };
-    }
-  }
 }
 
 module.exports = ResourceManager;
