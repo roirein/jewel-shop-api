@@ -22,15 +22,11 @@ class Service {
   }
 
   async _create(content) {
-    try {
-      const resource = await this.resourceManager.createResource(
-        this.resourceType,
-        content
-      );
-      return resource;
-    } catch (err) {
-      throw err;
-    }
+    const resource = await this.resourceManager.createResource(
+      this.resourceType,
+      content
+    );
+    return resource;
   }
 
   async _getAll(query = {}) {

@@ -1,4 +1,5 @@
-const { Model } = require("mongoose");
+const { Model, default: mongoose } = require("mongoose");
+const DBError = require("../errors/db-error");
 
 class ResourceManager {
   #dbSchemas = {};
@@ -27,7 +28,7 @@ class ResourceManager {
       const newResource = await resourceDB.create(resourceContent);
       return newResource;
     } catch (err) {
-      throw err;
+      throw new DBError(err);
     }
   }
 
@@ -79,7 +80,22 @@ class ResourceManager {
         .select(fields);
       return updatedResource;
     } catch (err) {
-      throw err;
+      throw new DBError(err);
+    }
+  }
+
+  #handleDBError(error) {
+    const errorsObject = {};
+    let result = {};
+    if (error.name === "ValidationError") {
+      Object.values(error.errors).forEach((value) => {
+        errorsObject[value.properties.path] = value.properties.message;
+      });
+      result = {
+        type: "DBError",
+        subType: error.name,
+        data: errorsObject,
+      };
     }
   }
 }

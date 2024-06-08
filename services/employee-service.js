@@ -34,6 +34,9 @@ class EmployeeService extends Service {
         role,
       };
     } catch (err) {
+      if (err.type && err.type === "DBError") {
+        throw err.toHTTPError();
+      }
       throw err;
     }
   }
