@@ -5,6 +5,7 @@ const {
   checkUserExists,
   checkUniqneUpdateData,
   generatePassword,
+  updateImage,
 } = require("./utils/user");
 
 class CustomerService extends Service {
@@ -77,7 +78,8 @@ class CustomerService extends Service {
   async updateCustomer(id, data) {
     try {
       await checkUniqneUpdateData(this.resourceManager, id, data);
-      const fields = "_id firstName lastName email phoneNumber imagePath";
+      const fields =
+        "_id firstName lastName email phoneNumber imagePath permissionLevel";
       const updatedUser = await this._update(id, data, fields);
       if (!updatedUser) {
         throw new HTTPError("No customer matching the given id", "fail", 404);
@@ -89,6 +91,33 @@ class CustomerService extends Service {
       }
       throw err;
     }
+  }
+
+  async updateCustomerPermission(id, data) {
+    try {
+      if (data.permissionLevel > 5 || data.permissionLevel < 1) {
+        throw new HTTPError(
+          "Permission level must be between 1 to 5",
+          "fail",
+          400
+        );
+      }
+      return this.updateCustomer(id, data);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateCustomerImage(id, newImage) {
+    const customer = await this._getById(id);
+    if (!customer) {
+      throw new HTTPError("No customer matching the given Id", "fail", 404);
+    }
+    await updateImage(customer);
+    const updatedUser = await this.updateCustomer(id, {
+      imagePath: newImage,
+    });
+    return updatedUser;
   }
 }
 

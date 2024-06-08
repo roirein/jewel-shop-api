@@ -1,3 +1,4 @@
+const fs = require("fs").promises;
 const HTTPError = require("../../errors/http-error");
 const RESOURCES_TYPES = require("../../resource-manager/definitions");
 const ResourceManager = require("../../resource-manager/resource-manager");
@@ -56,8 +57,21 @@ const checkUniqneUpdateData = async (resourceManager, userId, data) => {
   }
 };
 
+const updateImage = async (user) => {
+  if (user.imagePath) {
+    const userImage = user.imagePath;
+    const fullImagePath = path.join(
+      __dirname,
+      "..",
+      `images/users/${userImage}`
+    );
+    await fs.unlink(fullImagePath);
+  }
+};
+
 module.exports = {
   checkUserExists,
   generatePassword,
   checkUniqneUpdateData,
+  updateImage,
 };

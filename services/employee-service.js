@@ -5,6 +5,7 @@ const {
   generatePassword,
   checkUserExists,
   checkUniqneUpdateData,
+  updateImage,
 } = require("./utils/user");
 const Service = require("./service");
 const { ROLES } = require("../consts/employees");
@@ -108,13 +109,7 @@ class EmployeeService extends Service {
       if (!employee) {
         throw new HTTPError("No employee matching the given Id", "fail", 404);
       }
-      const employeeImage = employee.imagePath;
-      const fullImagePath = path.join(
-        __dirname,
-        "..",
-        `images/users/${employeeImage}`
-      );
-      await fs.unlink(fullImagePath);
+      await updateImage(employee);
       const updatedUser = await this.updateEmployee(id, {
         imagePath: newImage,
       });
