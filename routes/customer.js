@@ -10,4 +10,12 @@ router.post("/", validateRequest(customerSchema), (req, res, next) =>
   customerController.createCustomer(req, res, next)
 );
 
+router.get("/", (req, res, next) =>
+  customerController.getAllCustomers(req, res, next)
+);
+
+router.get("/:customerId", (req, res, next) =>
+  customerController.getCustomerById(req, res, next)
+);
+
 module.exports = router;
