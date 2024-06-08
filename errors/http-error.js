@@ -1,11 +1,13 @@
 class HTTPError extends Error {
   #status;
   #statusCode;
+  #data;
 
-  constructor(message, status, statusCode) {
+  constructor(message, status, statusCode, data = {}) {
     super(message);
     this.#status = status;
     this.#statusCode = statusCode;
+    this.#data = data;
   }
 
   get message() {
@@ -18,6 +20,10 @@ class HTTPError extends Error {
 
   get statusCode() {
     return this.#statusCode;
+  }
+
+  get data() {
+    return this.#data;
   }
 }
 

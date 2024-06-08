@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema(
         validator: function (value) {
           return isEmail(value);
         },
-        message: (props) => `${props.value} is invalida email address`,
+        message: (props) => `${props.value} is invalid email address`,
       },
     },
     phoneNumber: {
