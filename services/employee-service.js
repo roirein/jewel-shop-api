@@ -1,8 +1,10 @@
+const fs = require("fs").promises;
 const HTTPError = require("../errors/http-error");
 const RESOURCES_TYPES = require("../resource-manager/definitions");
 const { isUserExists, generatePassword } = require("./utils/user");
 const Service = require("./service");
 const { ROLES } = require("../consts/employees");
+const path = require("path");
 
 class EmployeeService extends Service {
   constructor() {
@@ -20,9 +22,10 @@ class EmployeeService extends Service {
       }
       const userData = { ...data, password: generatePassword() };
       const employee = await this._create(userData);
-      const { firstName, lastName, email, phoneNumber, role, imagePath } =
+      const { _id, firstName, lastName, email, phoneNumber, role, imagePath } =
         employee;
       return {
+        _id,
         firstName,
         lastName,
         email,
@@ -79,7 +82,7 @@ class EmployeeService extends Service {
           409
         );
       }
-      const fields = "_id firstName lastName email phoneNumber role";
+      const fields = "_id firstName lastName email phoneNumber role imagePath";
       const updatedUser = await this._update(id, data, fields);
       if (!updatedUser) {
         throw new HTTPError("No employee matching the given id", "fail", 404);
@@ -100,6 +103,28 @@ class EmployeeService extends Service {
         );
       }
       return this.updateEmployee(id, data);
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateEmployeeImage(id, newImage) {
+    try {
+      const employee = await this._getById(id);
+      if (!employee) {
+        throw new HTTPError("No employee matching the given Id", "fail", 404);
+      }
+      const employeeImage = employee.imagePath;
+      const fullImagePath = path.join(
+        __dirname,
+        "..",
+        `images/users/${employeeImage}`
+      );
+      await fs.unlink(fullImagePath);
+      const updatedUser = await this.updateEmployee(id, {
+        imagePath: newImage,
+      });
+      return updatedUser;
     } catch (err) {
       throw err;
     }

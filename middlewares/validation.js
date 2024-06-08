@@ -3,7 +3,6 @@ const HTTPError = require("../errors/http-error");
 const validateRequest = (validationSchema) => {
   return async (req, res, next) => {
     try {
-      console.log(123);
       await validationSchema.validate(req.body, { abortEarly: false });
       next();
     } catch (err) {

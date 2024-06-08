@@ -12,7 +12,13 @@ class EmployeeController extends Controller {
 
   async createEmployee(req, res, next) {
     try {
-      const employee = await this.service.createEmployee(req.body);
+      if (!req.file) {
+        throw new HTTPError("Image is required", "fail", 400);
+      }
+      const employee = await this.service.createEmployee({
+        ...req.body,
+        imagePath: req.file.filename,
+      });
       res.status(201).json({
         status: "success",
         data: {
@@ -89,6 +95,23 @@ class EmployeeController extends Controller {
       const updatedEmployee = await this.service.updateEmployeeRole(
         req.params.employeeId,
         req.body
+      );
+      res.status(200).json({
+        status: "success",
+        data: {
+          employee: updatedEmployee,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async updateEmployeeImage(req, res, next) {
+    try {
+      const updatedEmployee = await this.service.updateEmployeeImage(
+        req.params.employeeId,
+        req.file.filename
       );
       res.status(200).json({
         status: "success",

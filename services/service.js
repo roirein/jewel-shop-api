@@ -79,7 +79,6 @@ class Service {
       );
       return updatedResource;
     } catch (err) {
-      console.log(err);
       throw err;
     }
   }
