@@ -1,8 +1,24 @@
+const HTTPError = require("../../errors/http-error");
 const RESOURCES_TYPES = require("../../resource-manager/definitions");
+const ResourceManager = require("../../resource-manager/resource-manager");
 
-const isUserExists = async (resourceManager, data) => {
-  const query = { $or: [{ email: data.email, phoneNumber: data.phoneNumber }] };
-  return !!(await resourceManager.findOne(RESOURCES_TYPES.USER, query));
+/**
+ *
+ * @param {ResourceManager} resourceManager
+ * @param {object} data
+ * @throws {HTTPError} - throws error if user exist
+ */
+const checkUserExists = async (resourceManager, data) => {
+  const query = {
+    $or: [{ email: data.email }, { phoneNumber: data.phoneNumber }],
+  };
+  if (!!(await resourceManager.findOne(RESOURCES_TYPES.USER, query))) {
+    throw new HTTPError(
+      "User email or phone number already exists in the system",
+      "fail",
+      409
+    );
+  }
 };
 
 const generatePassword = () => {
@@ -27,6 +43,6 @@ const generatePassword = () => {
 };
 
 module.exports = {
-  isUserExists,
+  checkUserExists,
   generatePassword,
 };

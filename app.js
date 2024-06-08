@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const employeeRouter = require("./routes/employee");
+const customerRouter = require("./routes/customer");
 const morgan = require("morgan");
 
 const app = express();
@@ -15,6 +16,7 @@ const port = process.env.PORT || 3000;
 mongoose.connect(process.env.DB_URL);
 
 app.use("/employee", employeeRouter);
+app.use("/customer", customerRouter);
 
 app.use((err, req, res, next) => {
   res.status(err.statusCode || 500).json({

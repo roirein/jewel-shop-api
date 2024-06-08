@@ -31,7 +31,16 @@ const employeeSchema = baseUserSchema.shape({
     .oneOf(Object.values(ROLES), "role should be a valid role in the system"),
 });
 
+const customerSchema = baseUserSchema.shape({
+  permissionLevel: yup
+    .number()
+    .required("permission level is required")
+    .positive("permission level must be a positive number")
+    .max(5, "permission level cannot be higher than 5"),
+});
+
 module.exports = {
   baseUserSchema,
   employeeSchema,
+  customerSchema,
 };

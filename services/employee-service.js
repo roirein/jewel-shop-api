@@ -1,7 +1,11 @@
 const fs = require("fs").promises;
 const HTTPError = require("../errors/http-error");
 const RESOURCES_TYPES = require("../resource-manager/definitions");
-const { isUserExists, generatePassword } = require("./utils/user");
+const {
+  isUserExists,
+  generatePassword,
+  checkUserExists,
+} = require("./utils/user");
 const Service = require("./service");
 const { ROLES } = require("../consts/employees");
 const path = require("path");
@@ -13,13 +17,7 @@ class EmployeeService extends Service {
 
   async createEmployee(data) {
     try {
-      if (await isUserExists(this.resourceManager, data)) {
-        throw new HTTPError(
-          "Your email or phone number already exists in the system",
-          "fail",
-          409
-        );
-      }
+      await checkUserExists(this.resourceManager, data);
       const userData = { ...data, password: generatePassword() };
       const employee = await this._create(userData);
       const { _id, firstName, lastName, email, phoneNumber, role, imagePath } =
