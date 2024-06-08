@@ -3,25 +3,22 @@ const HTTPError = require("./http-error");
 class DBError extends Error {
   constructor(error) {
     super();
-    console.log(error.code);
+    console.log(error);
     this.type = "DBError";
     this.subtype = this.#setSubType(error);
     this.data = this.#setData(error);
   }
 
   #setSubType(error) {
-    if (error.name) {
-      return error.name;
-    }
     if (error.code) {
-      switch (code) {
+      switch (error.code) {
         case 11000:
           return "DuplicationError";
         default:
           return "Unknown";
       }
     }
-    return "Unknown";
+    return error.name || "Unknown";
   }
 
   #setData(error) {
