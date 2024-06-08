@@ -62,6 +62,17 @@ class CustomerService extends Service {
       throw err;
     }
   }
+
+  async deleteCustomer(id) {
+    try {
+      const isDeleteSuccessfull = await this._delete(id);
+      if (!isDeleteSuccessfull) {
+        throw new HTTPError("No customer matching the given id", "fail", 404);
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = CustomerService;

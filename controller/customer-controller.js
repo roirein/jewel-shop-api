@@ -54,6 +54,18 @@ class CustomerController extends Controller {
       next(err);
     }
   }
+
+  async deleteCustomer(req, res, next) {
+    try {
+      await this.service.deleteCustomer(req.params.customerId);
+      res.status(204).json({
+        status: "success",
+        message: "customer deleted successfully",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = CustomerController;

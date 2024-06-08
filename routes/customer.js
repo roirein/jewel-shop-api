@@ -18,4 +18,8 @@ router.get("/:customerId", (req, res, next) =>
   customerController.getCustomerById(req, res, next)
 );
 
+router.delete("/:customerId", (req, res, next) =>
+  customerController.deleteCustomer(req, res, next)
+);
+
 module.exports = router;
