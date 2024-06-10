@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const employeeRouter = require("./routes/employee");
 const customerRouter = require("./routes/customer");
+const businessRouter = require("./routes/business");
 const morgan = require("morgan");
 
 const app = express();
@@ -17,6 +18,7 @@ mongoose.connect(process.env.DB_URL);
 
 app.use("/employee", employeeRouter);
 app.use("/customer", customerRouter);
+app.use("/business", businessRouter);
 
 app.use((err, req, res, next) => {
   res.status(err.statusCode || 500).json({
