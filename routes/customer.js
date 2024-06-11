@@ -7,7 +7,7 @@ const userUpload = require("../middlewares/multer.config");
 const customerController = ControllerFactory.createCustomerController();
 const router = express.Router();
 
-router.post("/", validateRequest(customerSchema), (req, res, next) =>
+router.post("/:businessId", validateRequest(customerSchema), (req, res, next) =>
   customerController.createCustomer(req, res, next)
 );
 

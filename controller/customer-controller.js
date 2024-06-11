@@ -13,7 +13,10 @@ class CustomerController extends Controller {
 
   async createCustomer(req, res, next) {
     try {
-      const customer = await this.service.createCustomer(req.body);
+      const customer = await this.service.createCustomer({
+        ...req.body,
+        businessId: req.params.businessId,
+      });
       res.status(201).json({
         status: "success",
         data: {

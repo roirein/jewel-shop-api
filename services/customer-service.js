@@ -27,6 +27,12 @@ class CustomerService extends Service {
         permissionLevel,
         imagePath,
       } = customer;
+      const business = await this.resourceManager.findById(
+        RESOURCES_TYPES.BUSINESS,
+        data.businessId
+      );
+      business.customers = [...business.customers, _id];
+      await business.save();
       return {
         _id,
         firstName,
