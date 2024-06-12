@@ -54,6 +54,18 @@ class BusinessController extends Controller {
       next(err);
     }
   }
+
+  async deleteBusiness(req, res, next) {
+    try {
+      await this.service.deleteBusiness(req.params.businessId);
+      res.status(200).json({
+        status: "success",
+        message: "business deleted successfully",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = BusinessController;

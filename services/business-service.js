@@ -1,3 +1,4 @@
+const HTTPError = require("../errors/http-error");
 const RESOURCES_TYPES = require("../resource-manager/definitions");
 const Service = require("./service");
 const { isBusinessExists } = require("./utils/business");
@@ -51,6 +52,24 @@ class BusinessService extends Service {
         throw new HTTPError("No business matching the given id", "fail", 404);
       }
       return business;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async deleteBusiness(id) {
+    try {
+      const business = await this._getById(id);
+      if (!business) {
+        throw new HTTPError("No business matching the given id", "fail", 404);
+      }
+      //delete customers belongs to the business
+      const customersPromises = business.customers.map((customer) => {
+        return this.resourceManager.delete(RESOURCES_TYPES.CUSTOMER, customer);
+      });
+      await Promise.all(customersPromises);
+      // delete business
+      await this._delete(id);
     } catch (err) {
       throw err;
     }

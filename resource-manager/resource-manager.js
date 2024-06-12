@@ -26,7 +26,7 @@ class ResourceManager {
     try {
       const resourceDB = this.getResourceDB(resourceType);
       const newResource = await resourceDB.create(resourceContent);
-      return newResource;
+      return newResource._doc;
     } catch (err) {
       throw new DBError(err);
     }
@@ -36,7 +36,7 @@ class ResourceManager {
     try {
       const resourceDB = this.getResourceDB(resourceType);
       const resource = await resourceDB.findOne(query);
-      return resource;
+      return resource ? resource._doc : null;
     } catch (err) {
       throw err;
     }
@@ -46,7 +46,7 @@ class ResourceManager {
     try {
       const resourceDB = this.getResourceDB(resourceType);
       const resources = await resourceDB.find().select(query.fields);
-      return resources;
+      return resources.map((resource) => resource._doc);
     } catch (err) {
       throw err;
     }
@@ -56,7 +56,7 @@ class ResourceManager {
     try {
       const resourceDB = this.getResourceDB(resourceType);
       const resource = await resourceDB.findById(id).select(fields);
-      return resource;
+      return resource ? resource._doc : null;
     } catch (err) {
       throw err;
     }
@@ -75,10 +75,11 @@ class ResourceManager {
   async update(resourceType, id, data, fields = "") {
     try {
       const resourceDB = this.getResourceDB(resourceType);
-      const updatedResource = await resourceDB
-        .findByIdAndUpdate(id, data, { new: true })
-        .select(fields);
-      return updatedResource;
+      const updatedResource = await resourceDB.findByIdAndUpdate(id, data, {
+        new: true,
+        select: fields,
+      });
+      return updatedResource ? updatedResource._doc : null;
     } catch (err) {
       throw new DBError(err);
     }

@@ -8,6 +8,11 @@ const customerSchema = new mongoose.Schema({
     min: [1, "permission level must be a positive number"],
     max: [5, "permission level cannot be more than 5"],
   },
+  businessId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Business",
+    required: [true, "Business id is required"],
+  },
 });
 
 const Customer = User.discriminator("customer", customerSchema);

@@ -18,4 +18,8 @@ router.get("/:businessId", (req, res, next) =>
   businessController.getBusinessById(req, res, next)
 );
 
+router.delete("/:businessId", (req, res, next) =>
+  businessController.deleteBusiness(req, res, next)
+);
+
 module.exports = router;

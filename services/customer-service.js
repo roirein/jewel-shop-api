@@ -31,8 +31,14 @@ class CustomerService extends Service {
         RESOURCES_TYPES.BUSINESS,
         data.businessId
       );
-      business.customers = [...business.customers, _id];
-      await business.save();
+      await this.resourceManager.update(
+        RESOURCES_TYPES.BUSINESS,
+        business._id,
+        {
+          ...business,
+          customers: [...business.customers, _id],
+        }
+      );
       return {
         _id,
         firstName,
@@ -72,10 +78,25 @@ class CustomerService extends Service {
 
   async deleteCustomer(id) {
     try {
-      const isDeleteSuccessfull = await this._delete(id);
-      if (!isDeleteSuccessfull) {
+      const customer = await this._getById(id);
+      if (!customer) {
         throw new HTTPError("No customer matching the given id", "fail", 404);
       }
+      const business = await this.resourceManager.findById(
+        RESOURCES_TYPES.BUSINESS,
+        customer.businessId
+      );
+      await this.resourceManager.update(
+        RESOURCES_TYPES.BUSINESS,
+        business._id,
+        {
+          ...business,
+          customers: business.customers.filter(
+            (customerId) => customerId.toString() !== id
+          ),
+        }
+      );
+      await this._delete(id);
     } catch (err) {
       throw err;
     }
