@@ -22,4 +22,8 @@ router.delete("/:businessId", (req, res, next) =>
   businessController.deleteBusiness(req, res, next)
 );
 
+router.put("/:businessId", validateRequest(businessSchema), (req, res, next) =>
+  businessController.updateBusiness(req, res, next)
+);
+
 module.exports = router;

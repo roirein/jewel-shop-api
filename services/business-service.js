@@ -74,6 +74,35 @@ class BusinessService extends Service {
       throw err;
     }
   }
+
+  async updateBusiness(id, data) {
+    try {
+      const query = {
+        _id: { $ne: id },
+        $or: [
+          { businessEmail: data.businessEmail },
+          { phoneNumber: data.businessPhoneNumber },
+          { businessNumber: data.businessNumber },
+        ],
+      };
+      if (
+        !!(await this.resourceManager.findOne(RESOURCES_TYPES.BUSINESS, query))
+      ) {
+        throw new HTTPError(
+          "Your business details already exists",
+          "fail",
+          409
+        );
+      }
+      const updatedBusiness = await this._update(id, data);
+      if (!updatedBusiness) {
+        throw new HTTPError("No customer matching the given id", "fail", 404);
+      }
+      return updatedBusiness;
+    } catch (err) {
+      throw err;
+    }
+  }
 }
 
 module.exports = BusinessService;

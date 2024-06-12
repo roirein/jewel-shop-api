@@ -66,6 +66,23 @@ class BusinessController extends Controller {
       next(err);
     }
   }
+
+  async updateBusiness(req, res, next) {
+    try {
+      const updatedBusiness = await this.service.updateBusiness(
+        req.params.businessId,
+        req.body
+      );
+      res.status(200).json({
+        status: "success",
+        data: {
+          business: updatedBusiness,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = BusinessController;
