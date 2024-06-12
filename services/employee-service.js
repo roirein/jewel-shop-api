@@ -40,26 +40,6 @@ class EmployeeService extends Service {
     }
   }
 
-  async getAllEmployees(query = {}) {
-    try {
-      return await this._getAll(query);
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async getEmployeeById(id, query = {}) {
-    try {
-      const employee = await this._getById(id, query);
-      if (!employee) {
-        throw new HTTPError("No employee matching the given id", "fail", 404);
-      }
-      return employee;
-    } catch (err) {
-      throw err;
-    }
-  }
-
   async deleteEmployee(id) {
     try {
       const isDeleteSuccessfull = await this._delete(id);

@@ -32,7 +32,7 @@ class EmployeeController extends Controller {
 
   async getAllEmployees(req, res, next) {
     try {
-      const employees = await this.service.getAllEmployees(req.query);
+      const employees = await this.service.getAll(req.query);
       res.status(200).json({
         status: "success",
         data: {
@@ -46,7 +46,7 @@ class EmployeeController extends Controller {
 
   async getEmployeeById(req, res, next) {
     try {
-      const employee = await this.service.getEmployeeById(
+      const employee = await this.service.getById(
         req.params.employeeId,
         req.query
       );

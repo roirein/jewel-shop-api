@@ -56,26 +56,6 @@ class CustomerService extends Service {
     }
   }
 
-  async getAllCustomers(query = {}) {
-    try {
-      return await this._getAll(query);
-    } catch (err) {
-      throw err;
-    }
-  }
-
-  async getCustomerById(id, query = {}) {
-    try {
-      const customer = await this._getById(id, query);
-      if (!customer) {
-        throw new HTTPError("No customer matching the given id", "fail", 404);
-      }
-      return customer;
-    } catch (err) {
-      throw err;
-    }
-  }
-
   async deleteCustomer(id) {
     try {
       const customer = await this._getById(id);

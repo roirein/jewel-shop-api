@@ -1,3 +1,4 @@
+const HTTPError = require("../errors/http-error");
 const resourceManager = require("../resource-manager");
 
 class Service {
@@ -29,7 +30,7 @@ class Service {
     return resource;
   }
 
-  async _getAll(query = {}) {
+  async getAll(query = {}) {
     try {
       const resources = await this.resourceManager.findAll(this.resourceType, {
         fields: query.fields ? query.fields.replaceAll(",", " ") : "",
@@ -40,13 +41,16 @@ class Service {
     }
   }
 
-  async _getById(id, query = {}) {
+  async getById(id, query = {}) {
     try {
       const resource = await this.resourceManager.findById(
         this.resourceType,
         id,
         query.fields ? query.fields.replaceAll(",", " ") : ""
       );
+      if (!resource) {
+        throw new HTTPError("The resource you are looking for does not exist");
+      }
       return resource;
     } catch (err) {
       throw err;

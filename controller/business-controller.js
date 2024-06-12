@@ -26,7 +26,7 @@ class BusinessController extends Controller {
 
   async getAllBusiness(req, res, next) {
     try {
-      const businesses = await this.service.getAllBusinesses(req.query);
+      const businesses = await this.service.getAll(req.query);
       res.status(200).json({
         status: "success",
         data: {
@@ -40,7 +40,7 @@ class BusinessController extends Controller {
 
   async getBusinessById(req, res, next) {
     try {
-      const business = await this.service.getBusinessById(
+      const business = await this.service.getById(
         req.params.businessId,
         req.query
       );
