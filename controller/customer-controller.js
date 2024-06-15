@@ -1,5 +1,5 @@
 const HTTPError = require("../errors/http-error");
-const CustomerService = require("../services/customer-service");
+const CustomerService = require("../services/entity-services/customer-service");
 const Controller = require("./controller");
 
 class CustomerController extends Controller {
@@ -13,10 +13,10 @@ class CustomerController extends Controller {
 
   async createCustomer(req, res, next) {
     try {
-      const customer = await this.service.createCustomer({
-        ...req.body,
-        businessId: req.params.businessId,
-      });
+      const customer = await this.service.createCustomer(
+        req.body,
+        req.params.businessId
+      );
       res.status(201).json({
         status: "success",
         data: {
@@ -30,7 +30,7 @@ class CustomerController extends Controller {
 
   async getAllCustomers(req, res, next) {
     try {
-      const customers = await this.service.geAll(req.query);
+      const customers = await this.service.retriveCustomers(req.query);
       res.status(200).json({
         status: "success",
         data: {
@@ -44,9 +44,9 @@ class CustomerController extends Controller {
 
   async getCustomerById(req, res, next) {
     try {
-      const customer = await this.service.getById(
+      const customer = await this.service.getCustomerById(
         req.params.customerId,
-        req.query
+        req?.query?.fields
       );
       res.status(200).json({
         status: "success",

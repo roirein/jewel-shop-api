@@ -1,6 +1,6 @@
-const BusinessService = require("./business-service");
-const CustomerService = require("./customer-service");
-const EmployeeService = require("./employee-service");
+const BusinessService = require("./entity-services/business-service");
+const CustomerService = require("./entity-services/customer-service");
+const EmployeeService = require("./entity-services/employee-service");
 
 class ServiceFactory {
   static getEmployeeService() {

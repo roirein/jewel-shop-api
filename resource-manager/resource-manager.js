@@ -45,7 +45,18 @@ class ResourceManager {
   async findAll(resourceType, query) {
     try {
       const resourceDB = this.getResourceDB(resourceType);
-      const resources = await resourceDB.find().select(query.fields);
+      const { skip, limit, fields, ...rest } = query;
+      let resourcesPromise = resourceDB.find(rest);
+      if (fields) {
+        resourcesPromise = resourcesPromise.select(fields);
+      }
+      if (skip) {
+        resourcesPromise = resourcesPromise.skip(skip);
+      }
+      if (limit) {
+        resourcesPromise = resourcesPromise.limit(limit);
+      }
+      const resources = await resourcesPromise;
       return resources.map((resource) => resource._doc);
     } catch (err) {
       throw err;
@@ -66,7 +77,10 @@ class ResourceManager {
     try {
       const resourceDB = this.getResourceDB(resourceType);
       const deletedResource = await resourceDB.findByIdAndDelete(id);
-      return deletedResource;
+      if (!deletedResource) {
+        return false;
+      }
+      return true;
     } catch (err) {
       throw err;
     }

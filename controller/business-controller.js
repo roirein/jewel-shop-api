@@ -1,4 +1,4 @@
-const BusinessService = require("../services/business-service");
+const BusinessService = require("../services/entity-services/business-service");
 const Controller = require("./controller");
 
 class BusinessController extends Controller {
@@ -26,7 +26,7 @@ class BusinessController extends Controller {
 
   async getAllBusiness(req, res, next) {
     try {
-      const businesses = await this.service.getAll(req.query);
+      const businesses = await this.service.retrieveBusinesses(req.query);
       res.status(200).json({
         status: "success",
         data: {
@@ -40,9 +40,9 @@ class BusinessController extends Controller {
 
   async getBusinessById(req, res, next) {
     try {
-      const business = await this.service.getById(
+      const business = await this.service.getBusinessById(
         req.params.businessId,
-        req.query
+        req?.query?.fields
       );
       res.status(200).json({
         status: "success",
@@ -58,7 +58,7 @@ class BusinessController extends Controller {
   async deleteBusiness(req, res, next) {
     try {
       await this.service.deleteBusiness(req.params.businessId);
-      res.status(200).json({
+      res.status(204).json({
         status: "success",
         message: "business deleted successfully",
       });

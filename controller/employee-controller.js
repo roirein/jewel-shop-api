@@ -1,4 +1,4 @@
-const EmployeeService = require("../services/employee-service");
+const EmployeeService = require("../services/entity-services/employee-service");
 const Controller = require("./controller");
 
 class EmployeeController extends Controller {
@@ -32,7 +32,7 @@ class EmployeeController extends Controller {
 
   async getAllEmployees(req, res, next) {
     try {
-      const employees = await this.service.getAll(req.query);
+      const employees = await this.service.retriveEmployees(req.query);
       res.status(200).json({
         status: "success",
         data: {
@@ -46,9 +46,9 @@ class EmployeeController extends Controller {
 
   async getEmployeeById(req, res, next) {
     try {
-      const employee = await this.service.getById(
+      const employee = await this.service.getEmployeeById(
         req.params.employeeId,
-        req.query
+        req?.query?.fields
       );
       res.status(200).json({
         status: "success",
