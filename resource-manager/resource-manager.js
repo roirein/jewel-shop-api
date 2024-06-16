@@ -81,10 +81,17 @@ class ResourceManager {
     }
   }
 
-  async delete(resourceType, id) {
+  async delete(resourceType, id, soft = false) {
     try {
+      let deletedResource;
       const resourceDB = this.getResourceDB(resourceType);
-      const deletedResource = await resourceDB.findByIdAndDelete(id);
+      if (soft) {
+        deletedResource = await resourceDB.findByIdAndUpdate(id, {
+          deletedAt: new Date(),
+        });
+      } else {
+        deletedResource = await resourceDB.findByIdAndDelete(id);
+      }
       if (!deletedResource) {
         return false;
       }
