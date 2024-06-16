@@ -3,6 +3,7 @@ const RESOURCES_TYPES = {
   EMPLOYEE: "employee",
   USER: "user",
   BUSINESS: "business",
+  REGISTRATION_REQUEST: "registration request",
 };
 
 module.exports = RESOURCES_TYPES;

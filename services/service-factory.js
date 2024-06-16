@@ -1,6 +1,7 @@
 const BusinessService = require("./entity-services/business-service");
 const CustomerService = require("./entity-services/customer-service");
 const EmployeeService = require("./entity-services/employee-service");
+const RegistrationRequestService = require("./entity-services/registration-request-service");
 
 class ServiceFactory {
   static getEmployeeService() {
@@ -13,6 +14,10 @@ class ServiceFactory {
 
   static getBusinessService() {
     return new BusinessService();
+  }
+
+  static getRegistrationRequestService() {
+    return new RegistrationRequestService();
   }
 }
 
