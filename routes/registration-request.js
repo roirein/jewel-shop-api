@@ -10,4 +10,10 @@ router.post("/", validateRequest(registrationRequestSchema), (req, res, next) =>
   controller.createRequest(req, res, next)
 );
 
+router.get("/", (req, res, next) => controller.getAllRequests(req, res, next));
+
+router.get("/:requestId", (req, res, next) =>
+  controller.getRequestById(req, res, next)
+);
+
 module.exports = router;

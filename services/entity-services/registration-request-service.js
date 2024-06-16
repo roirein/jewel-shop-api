@@ -54,6 +54,28 @@ class RegistrationRequestService extends BaseEntityService {
       this.handleEntityServiceError(err);
     }
   }
+
+  async retriveRequests(query = {}) {
+    const fields = query.fields ? query.fields.replaceAll(",", " ") : undefined;
+    const limit = query.limit ? parseInt(query.limit) : undefined;
+    const skip = query.limit ? parseInt(query.skip) : undefined;
+    const requests = await this.searchResources({
+      ...query,
+      fields,
+      limit,
+      skip,
+    });
+    return requests;
+  }
+
+  async getRequestById(id, fields = "") {
+    const request = await this.searchResourceById(
+      id,
+      fields.replaceAll(",", " ")
+    );
+
+    return request;
+  }
 }
 
 module.exports = RegistrationRequestService;

@@ -46,7 +46,15 @@ class ResourceManager {
     try {
       const resourceDB = this.getResourceDB(resourceType);
       const { skip, limit, fields, ...rest } = query;
-      let resourcesPromise = resourceDB.find(rest);
+      const filters = {};
+      Object.entries(rest).forEach(([key, value]) => {
+        if (value === "null") {
+          filters[key] = null;
+        } else {
+          filters[key] = value;
+        }
+      });
+      let resourcesPromise = resourceDB.find(filters);
       if (fields) {
         resourcesPromise = resourcesPromise.select(fields);
       }

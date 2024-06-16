@@ -24,6 +24,37 @@ class RegistrationRequestController extends Controller {
       next(err);
     }
   }
+
+  async getAllRequests(req, res, next) {
+    try {
+      const requests = await this.service.retriveRequests(req.query);
+      res.status(200).json({
+        status: "success",
+        data: {
+          requests,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async getRequestById(req, res, next) {
+    try {
+      const request = await this.service.getRequestById(
+        req.params.requestId,
+        req?.query?.fields
+      );
+      res.status(200).json({
+        status: "success",
+        data: {
+          request,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = RegistrationRequestController;
