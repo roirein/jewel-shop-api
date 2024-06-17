@@ -1,5 +1,5 @@
-const HTTPError = require("../../errors/http-error");
-const RESOURCES_TYPES = require("../../resource-manager/definitions");
+const HTTPError = require("../../../errors/db-error");
+const RESOURCES_TYPES = require("../../../resource-manager/definitions");
 const { checkContactInfoExists } = require("./contact-info");
 
 const isBusinessExists = async (

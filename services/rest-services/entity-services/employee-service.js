@@ -1,7 +1,7 @@
-const HTTPError = require("../../errors/http-error");
-const RESOURCES_TYPES = require("../../resource-manager/definitions");
+const HTTPError = require("../../../errors/http-error");
+const RESOURCES_TYPES = require("../../../resource-manager/definitions");
 const { generatePassword, updateImage } = require("../utils/user");
-const { ROLES } = require("../../consts/employees");
+const { ROLES } = require("../../../consts/employees");
 const { checkContactInfoExists } = require("../utils/contact-info");
 const BaseEntityService = require("./base-entity-service");
 

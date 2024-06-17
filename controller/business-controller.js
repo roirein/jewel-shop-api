@@ -1,4 +1,4 @@
-const BusinessService = require("../services/entity-services/business-service");
+const BusinessService = require("../services/rest-services/entity-services/business-service");
 const Controller = require("./controller");
 
 class BusinessController extends Controller {

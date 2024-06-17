@@ -1,6 +1,6 @@
-const HTTPError = require("../../errors/http-error");
-const resourceManager = require("../../resource-manager");
-const Service = require("../service");
+const HTTPError = require("../../../errors/http-error");
+const resourceManager = require("../../../resource-manager");
+const Service = require("../../service");
 
 class BaseEntityService extends Service {
   #resourceType;

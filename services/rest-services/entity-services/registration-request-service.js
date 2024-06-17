@@ -1,6 +1,6 @@
-const { STATUS } = require("../../consts/requests");
-const HTTPError = require("../../errors/http-error");
-const RESOURCES_TYPES = require("../../resource-manager/definitions");
+const { STATUS } = require("../../../consts/requests");
+const HTTPError = require("../../../errors/http-error");
+const RESOURCES_TYPES = require("../../../resource-manager/definitions");
 const { isBusinessExists } = require("../utils/business");
 const { checkContactInfoExists } = require("../utils/contact-info");
 const BaseEntityService = require("./base-entity-service");
@@ -45,12 +45,12 @@ class RegistrationRequestService extends BaseEntityService {
           409
         );
       }
-      const { businessData, contactData, status, description } =
+      const { _id, businessData, contactData, status, description } =
         await this.resourceManager.createResource(
           RESOURCES_TYPES.REGISTRATION_REQUEST,
           data
         );
-      return { businessData, contactData, status, description };
+      return { _id, businessData, contactData, status, description };
     } catch (err) {
       this.handleEntityServiceError(err);
     }
@@ -99,6 +99,14 @@ class RegistrationRequestService extends BaseEntityService {
           "fail",
           404
         );
+      }
+      if (updatedRequest.status === STATUS.APPROVED) {
+        this.eventEmitter.emitEvent({
+          type: "mail-send",
+          data: {
+            email: updatedRequest.contactData.email,
+          },
+        });
       }
       await this.resourceManager.delete(
         RESOURCES_TYPES.REGISTRATION_REQUEST,

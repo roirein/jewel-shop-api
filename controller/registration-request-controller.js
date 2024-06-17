@@ -1,4 +1,4 @@
-const RegistrationRequestService = require("../services/entity-services/registration-request-service");
+const RegistrationRequestService = require("../services/rest-services/entity-services/registration-request-service");
 const Controller = require("./controller");
 
 class RegistrationRequestController extends Controller {

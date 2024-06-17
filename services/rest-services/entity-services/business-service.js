@@ -1,8 +1,6 @@
-const HTTPError = require("../../errors/http-error");
-const RESOURCES_TYPES = require("../../resource-manager/definitions");
-const Service = require("../service");
+const HTTPError = require("../../../errors/http-error");
+const RESOURCES_TYPES = require("../../../resource-manager/definitions");
 const { isBusinessExists } = require("../utils/business");
-const { checkUserExists } = require("../utils/user");
 const BaseEntityService = require("./base-entity-service");
 
 class BusinessService extends BaseEntityService {

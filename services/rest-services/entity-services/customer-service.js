@@ -1,13 +1,7 @@
-const HTTPError = require("../../errors/http-error");
-const RESOURCES_TYPES = require("../../resource-manager/definitions");
-const Service = require("../service");
+const HTTPError = require("../../../errors/http-error");
+const RESOURCES_TYPES = require("../../../resource-manager/definitions");
 const { checkContactInfoExists } = require("../utils/contact-info");
-const {
-  checkUserExists,
-  checkUniqneUpdateData,
-  generatePassword,
-  updateImage,
-} = require("../utils/user");
+const { generatePassword, updateImage } = require("../utils/user");
 const BaseEntityService = require("./base-entity-service");
 
 class CustomerService extends BaseEntityService {

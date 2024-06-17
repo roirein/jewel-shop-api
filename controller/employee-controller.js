@@ -1,4 +1,4 @@
-const EmployeeService = require("../services/entity-services/employee-service");
+const EmployeeService = require("../services/rest-services/entity-services/employee-service");
 const Controller = require("./controller");
 
 class EmployeeController extends Controller {

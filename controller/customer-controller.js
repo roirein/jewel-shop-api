@@ -1,5 +1,5 @@
 const HTTPError = require("../errors/http-error");
-const CustomerService = require("../services/entity-services/customer-service");
+const CustomerService = require("../services/rest-services/entity-services/customer-service");
 const Controller = require("./controller");
 
 class CustomerController extends Controller {
