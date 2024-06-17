@@ -1,3 +1,4 @@
+const { STATUS } = require("../../consts/requests");
 const HTTPError = require("../../errors/http-error");
 const RESOURCES_TYPES = require("../../resource-manager/definitions");
 const { isBusinessExists } = require("../utils/business");
@@ -41,7 +42,7 @@ class RegistrationRequestService extends BaseEntityService {
         throw new HTTPError(
           "There is already pending request with some of the contact of business data you provided",
           "fail",
-          400
+          409
         );
       }
       const { businessData, contactData, status, description } =
@@ -75,6 +76,43 @@ class RegistrationRequestService extends BaseEntityService {
     );
 
     return request;
+  }
+
+  async respondRequest(requestId, data) {
+    try {
+      if (!Object.values(STATUS).includes(data.status)) {
+        throw new HTTPError(
+          "Status must be either pending, rejected, approved",
+          "fail",
+          400
+        );
+      }
+      const updatedRequest = await this.resourceManager.update(
+        RESOURCES_TYPES.REGISTRATION_REQUEST,
+        requestId,
+        data,
+        "contactData businessData description status"
+      );
+      if (!updatedRequest) {
+        throw new HTTPError(
+          "The request you are trying to update does not exists",
+          "fail",
+          404
+        );
+      }
+      await this.resourceManager.delete(
+        RESOURCES_TYPES.REGISTRATION_REQUEST,
+        requestId,
+        true
+      );
+      return updatedRequest;
+    } catch (err) {
+      this.handleEntityServiceError(err);
+    }
+  }
+
+  async deleteRequest(requestId) {
+    await this.deleteResource(requestId);
   }
 }
 

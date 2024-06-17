@@ -55,6 +55,35 @@ class RegistrationRequestController extends Controller {
       next(err);
     }
   }
+
+  async respondRequest(req, res, next) {
+    try {
+      const request = await this.service.respondRequest(
+        req.params.requestId,
+        req.body
+      );
+      res.status(200).json({
+        status: "success",
+        data: {
+          request,
+        },
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async deleteRequest(req, res, next) {
+    try {
+      await this.service.deleteRequest(req.params.requestId);
+      res.status(204).json({
+        status: "success",
+        message: "request deleted successfully",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = RegistrationRequestController;

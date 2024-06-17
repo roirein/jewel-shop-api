@@ -16,4 +16,12 @@ router.get("/:requestId", (req, res, next) =>
   controller.getRequestById(req, res, next)
 );
 
+router.patch("/:requestId/respond", (req, res, next) =>
+  controller.respondRequest(req, res, next)
+);
+
+router.delete("/:requestId", (req, res, next) =>
+  controller.deleteRequest(req, res, next)
+);
+
 module.exports = router;
