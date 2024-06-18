@@ -16,10 +16,19 @@ class EmployeeService extends BaseEntityService {
       data.email,
       data.phoneNumber
     );
-    const userData = { ...data, password: generatePassword() };
+    const password = generatePassword();
+    const userData = { ...data, password };
     const employee = await this.createResource(userData);
     const { _id, firstName, lastName, email, phoneNumber, role, imagePath } =
       employee;
+    this.eventEmitter.emitEvent({
+      event: "send-mail",
+      data: {
+        type: "password",
+        email,
+        password,
+      },
+    });
     return {
       _id,
       firstName,

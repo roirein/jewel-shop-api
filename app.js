@@ -7,6 +7,7 @@ const customerRouter = require("./routes/customer");
 const businessRouter = require("./routes/business");
 const requestsRouter = require("./routes/registration-request");
 const morgan = require("morgan");
+require("./services/mail-service.js/mail-service");
 
 const app = express();
 app.use(express.json());

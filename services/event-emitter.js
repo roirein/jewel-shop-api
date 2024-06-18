@@ -11,9 +11,12 @@ class ServiceEventEmitter {
   }
 
   emitEvent(data) {
-    console.log(data);
-    this.emitter.emit("mail-send", data);
+    this.emitter.emit(data.event, data.data);
+  }
+
+  onEvent(event, listener) {
+    this.emitter.on(event, listener);
   }
 }
 
-module.exports = ServiceEventEmitter;
+module.exports = new ServiceEventEmitter();

@@ -102,9 +102,11 @@ class RegistrationRequestService extends BaseEntityService {
       }
       if (updatedRequest.status === STATUS.APPROVED) {
         this.eventEmitter.emitEvent({
-          type: "mail-send",
+          event: "send-mail",
           data: {
+            type: "approval",
             email: updatedRequest.contactData.email,
+            name: `${updatedRequest.contactData.firstName} ${updatedRequest.contactData.lastName}`,
           },
         });
       }

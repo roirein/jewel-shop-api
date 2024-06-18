@@ -27,7 +27,8 @@ class CustomerService extends BaseEntityService {
         data.email,
         data.phoneNumber
       );
-      const userData = { ...data, password: generatePassword(), businessId };
+      const password = generatePassword();
+      const userData = { ...data, password, businessId };
       const customer = await this.resourceManager.createResource(
         RESOURCES_TYPES.CUSTOMER,
         userData
@@ -49,6 +50,14 @@ class CustomerService extends BaseEntityService {
           customers: [...business.customers, _id],
         }
       );
+      this.eventEmitter.emitEvent({
+        event: "send-mail",
+        data: {
+          type: "password",
+          email,
+          password,
+        },
+      });
       return {
         _id,
         firstName,
