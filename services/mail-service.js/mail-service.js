@@ -21,7 +21,6 @@ class MailService extends Service {
   }
 
   async handleMailEvent(data) {
-    console.log(data);
     switch (data.type) {
       case "password":
         await this.#sendNewUserPasswordMail(data);

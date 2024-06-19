@@ -3,7 +3,9 @@ const EventEmitter = require("node:events");
 class ServiceEventEmitter {
   #emitter;
   constructor() {
-    this.#emitter = new EventEmitter();
+    const emitter = new EventEmitter();
+    emitter.setMaxListeners(100);
+    this.#emitter = emitter;
   }
 
   get emitter() {

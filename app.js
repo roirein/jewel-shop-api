@@ -1,15 +1,20 @@
 const path = require("path");
 const express = require("express");
+const { createServer } = require("http");
 const mongoose = require("mongoose");
+const socketio = require("socket.io");
 require("dotenv").config();
 const employeeRouter = require("./routes/employee");
 const customerRouter = require("./routes/customer");
 const businessRouter = require("./routes/business");
 const requestsRouter = require("./routes/registration-request");
 const morgan = require("morgan");
+const NotificationService = require("./services/notifications-service/notification-service");
 require("./services/mail-service.js/mail-service");
 
 const app = express();
+const server = createServer(app);
+const io = socketio(server);
 app.use(express.json());
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(morgan("dev"));
@@ -31,6 +36,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(port, () => {
+new NotificationService(io);
+
+server.listen(port, () => {
   console.log(`Server is up and running on port ${port}`);
 });

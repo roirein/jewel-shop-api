@@ -50,6 +50,15 @@ class RegistrationRequestService extends BaseEntityService {
           RESOURCES_TYPES.REGISTRATION_REQUEST,
           data
         );
+      this.eventEmitter.emitEvent({
+        event: "notification",
+        data: {
+          type: "registration-request",
+          content: {
+            businessName: businessData.businessName,
+          },
+        },
+      });
       return { _id, businessData, contactData, status, description };
     } catch (err) {
       this.handleEntityServiceError(err);
