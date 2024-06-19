@@ -2,10 +2,10 @@ const Service = require("../service");
 
 class NotificationService extends Service {
   #socket;
+  static #users = {};
   constructor(io) {
     super();
     io.on("connection", (socket) => {
-      console.log("connection");
       this.#socket = socket;
     });
     this.eventEmitter.onEvent(

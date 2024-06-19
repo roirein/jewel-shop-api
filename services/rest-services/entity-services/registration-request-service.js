@@ -50,12 +50,37 @@ class RegistrationRequestService extends BaseEntityService {
           RESOURCES_TYPES.REGISTRATION_REQUEST,
           data
         );
+      const managerId = await this.resourceManager.findOne(
+        RESOURCES_TYPES.EMPLOYEE,
+        { role: "manager" },
+        { fields: "_id" }
+      );
+      const {
+        notificationType,
+        read,
+        createdAt,
+        resourceType,
+        resourceId,
+        receiver,
+      } = await this.resourceManager.createResource(
+        RESOURCES_TYPES.NOTIFICATION,
+        {
+          notificationType: "registration-request",
+          receiver: managerId,
+          resourceId: _id,
+          resourceType: "RegistrationRequest",
+        }
+      );
       this.eventEmitter.emitEvent({
         event: "notification",
         data: {
-          type: "registration-request",
+          type: notificationType,
           content: {
-            businessName: businessData.businessName,
+            read,
+            createdAt,
+            resourceType,
+            resourceId,
+            receiver,
           },
         },
       });
