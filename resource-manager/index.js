@@ -1,6 +1,7 @@
 const Business = require("../models/business");
 const Customer = require("../models/customer");
 const Employee = require("../models/employee");
+const Notification = require("../models/notification");
 const RegistrationRequest = require("../models/registration-request");
 const User = require("../models/user");
 const RESOURCES_TYPES = require("./definitions");

@@ -1,3 +1,4 @@
+const AuthService = require("./rest-services/auth-service");
 const BusinessService = require("./rest-services/entity-services/business-service");
 const CustomerService = require("./rest-services/entity-services/customer-service");
 const EmployeeService = require("./rest-services/entity-services/employee-service");
@@ -18,6 +19,10 @@ class ServiceFactory {
 
   static getRegistrationRequestService() {
     return new RegistrationRequestService();
+  }
+
+  static getAuthService() {
+    return new AuthService();
   }
 }
 
