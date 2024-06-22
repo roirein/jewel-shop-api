@@ -63,12 +63,26 @@ class AuthController extends Controller {
     try {
       await this.service.resetPassword({
         password: req.body.password,
-        confirmPassword: req.body.confirmPassword,
         token: req.body.token,
       });
       res.status(200).json({
         status: "success",
         message: "Password changed successfully",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async updatePassword(req, res, next) {
+    try {
+      await this.service.updatePassword({
+        email: req.body.email,
+        password: req.body.password,
+      });
+      res.status(200).json({
+        status: "success",
+        message: "password updated successfully",
       });
     } catch (err) {
       next(err);

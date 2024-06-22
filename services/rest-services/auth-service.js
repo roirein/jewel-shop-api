@@ -136,17 +136,10 @@ class AuthService extends Service {
     }
   }
 
-  async resetPassword({ password, confirmPassword, token }) {
+  async resetPassword({ password, token }) {
     try {
       const tokenRecord = await this.#fetchAndValidateToken(token);
       const user = await this.#fetchUserByToken(tokenRecord);
-      if (password !== confirmPassword) {
-        throw new HTTPError(
-          "Password must be equal to confirm password",
-          "fail",
-          400
-        );
-      }
       const updatedUser = { ...user, password };
       if (user.firstLogin) {
         updatedUser.firstLogin = false;
@@ -156,6 +149,24 @@ class AuthService extends Service {
       });
       await this.#deleteToken(tokenRecord);
     } catch (err) {
+      throw err;
+    }
+  }
+
+  async updatePassword({ email, password }) {
+    try {
+      const user = await this.resourceManager.findOne(RESOURCES_TYPES.USER, {
+        email,
+      });
+      if (!user) {
+        throw new HTTPError("No user attached to this email", "fail", 404);
+      }
+      await this.resourceManager.update(RESOURCES_TYPES.USER, user._id, {
+        ...user,
+        password,
+      });
+    } catch (err) {
+      console.log(err);
       throw err;
     }
   }

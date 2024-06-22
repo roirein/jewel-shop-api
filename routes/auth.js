@@ -1,5 +1,10 @@
 const express = require("express");
 const ControllerFactory = require("../controller/controller-factory");
+const validateRequest = require("../middlewares/validation");
+const {
+  resetPasswordSchema,
+  updatePasswordSchema,
+} = require("../validations/password");
 
 const router = express.Router();
 
@@ -14,11 +19,17 @@ router.post("/reset-password/verify/:token", (req, res, next) =>
   controller.verifyToken(req, res, next)
 ); //verifying token
 
-router.patch("/reset-password/change", (req, res, next) =>
-  controller.resetPassword(req, res, next)
+router.patch(
+  "/reset-password/change",
+  validateRequest(resetPasswordSchema),
+  (req, res, next) => controller.resetPassword(req, res, next)
 ); //actual reset password
 
-router.patch("/update-password", (req, res, next) => {}); //change password for logged in user
+router.patch(
+  "/update-password",
+  validateRequest(updatePasswordSchema),
+  (req, res, next) => controller.updatePassword(req, res, next)
+); //change password for logged in user
 
 router.post("/reset-token", (req, res, next) =>
   controller.resteAccessToken(req, res, next)
