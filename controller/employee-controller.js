@@ -1,3 +1,4 @@
+const HTTPError = require("../errors/http-error");
 const EmployeeService = require("../services/rest-services/entity-services/employee-service");
 const Controller = require("./controller");
 
@@ -12,6 +13,7 @@ class EmployeeController extends Controller {
 
   async createEmployee(req, res, next) {
     try {
+      console.log(req.body);
       if (!req.file) {
         throw new HTTPError("Image is required", "fail", 400);
       }

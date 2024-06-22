@@ -5,6 +5,7 @@ const RESOURCES_TYPES = {
   BUSINESS: "business",
   REGISTRATION_REQUEST: "registration request",
   NOTIFICATION: "notification",
+  TOKEN: "token",
 };
 
 module.exports = RESOURCES_TYPES;

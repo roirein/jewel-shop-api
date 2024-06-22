@@ -34,6 +34,67 @@ class AuthController extends Controller {
       next(err);
     }
   }
+
+  async generateResetPasswordToken(req, res, next) {
+    try {
+      await this.service.genertaeResetPasswordToken(req.body.email);
+      res.status(200).json({
+        status: "success",
+        message:
+          "Email with instruction for resetting your password was sent to your email",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async verifyToken(req, res, next) {
+    try {
+      await this.service.verifyToken(req.params.token);
+      res.status(200).json({
+        status: "success",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  async resetPassword(req, res, next) {
+    try {
+      await this.service.resetPassword({
+        password: req.body.password,
+        confirmPassword: req.body.confirmPassword,
+        token: req.body.token,
+      });
+      res.status(200).json({
+        status: "success",
+        message: "Password changed successfully",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
+
+  /**
+   *
+   * @param {Request} req
+   * @param {Response} res
+   * @param {NextFunction} next
+   */
+  async logout(req, res, next) {
+    try {
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        path: "/",
+      });
+      res.status(200).json({
+        status: "success",
+        message: "User logged out successfully",
+      });
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = AuthController;

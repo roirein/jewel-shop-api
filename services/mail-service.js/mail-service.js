@@ -28,6 +28,8 @@ class MailService extends Service {
       case "approval":
         await this.#sendApprovalEmail(data);
         break;
+      case "reset-password":
+        await this.#sendResetPasswordMail(data);
       default:
         break;
     }
@@ -48,6 +50,15 @@ class MailService extends Service {
       to: data.email,
       subject: "Welcome",
       text: `Hi ${data.name}, your registration request was approved, your password will be sent in separate mail`,
+    });
+  }
+
+  async #sendResetPasswordMail(data) {
+    await this.mailClient.sendMail({
+      from: "no-reply@jewel-shop.com",
+      to: data.email,
+      subject: "Reset Password Link",
+      html: `<p>In order to reset your password, pleas click on this <a href="http://localhost:3000/auth/reset-password/verify/${data.token}">link</a></p>`,
     });
   }
 }
