@@ -159,6 +159,28 @@ class AuthService extends Service {
       throw err;
     }
   }
+
+  async resetAccessToken(refreshToken) {
+    try {
+      const decoded = jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET
+      );
+      const accessToken = this.#generateToken(
+        { _id: decoded._id },
+        process.env.ACCESS_TOKEN_SECRET,
+        "15m"
+      );
+      return accessToken;
+    } catch (err) {
+      if (err.name === "TokenExpiredError") {
+        throw new HTTPError("Token has expired", "fail", 401);
+      }
+      if (err.name === "JsonWebTokenError") {
+        throw new HTTPError("Invalid token", "fail", 401);
+      }
+    }
+  }
 }
 
 module.exports = AuthService;

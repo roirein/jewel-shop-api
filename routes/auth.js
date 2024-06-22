@@ -20,7 +20,9 @@ router.patch("/reset-password/change", (req, res, next) =>
 
 router.patch("/update-password", (req, res, next) => {}); //change password for logged in user
 
-router.post("/reset-token", (req, res, next) => {}); //refresh access token
+router.post("/reset-token", (req, res, next) =>
+  controller.resteAccessToken(req, res, next)
+); //refresh access token
 
 router.post("/logout", (req, res, next) => controller.logout(req, res, next)); //logout
 module.exports = router;

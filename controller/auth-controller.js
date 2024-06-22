@@ -75,6 +75,24 @@ class AuthController extends Controller {
     }
   }
 
+  async resteAccessToken(req, res, next) {
+    try {
+      const accessToken = await this.service.resetAccessToken(
+        req.cookies.refreshToken
+      );
+      res.status(200).json({
+        status: "success",
+        token: accessToken,
+      });
+    } catch (err) {
+      res.clearCookie("refreshToken", {
+        httpOnly: true,
+        path: "/",
+      });
+      next(err);
+    }
+  }
+
   /**
    *
    * @param {Request} req
