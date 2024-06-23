@@ -3,10 +3,14 @@ const ControllerFactory = require("../controller/controller-factory");
 const validateRequest = require("../middlewares/validation");
 const { employeeSchema, baseUserSchema } = require("../validations/user");
 const userUpload = require("../middlewares/multer.config");
+const passport = require("passport");
 
 const router = express.Router();
 
 const employeeController = ControllerFactory.createEmployeeController();
+
+router.use(passport.authenticate("jwt", { session: false }));
+
 router.post(
   "/",
   userUpload.single("image"),

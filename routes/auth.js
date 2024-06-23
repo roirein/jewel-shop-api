@@ -1,6 +1,7 @@
 const express = require("express");
 const ControllerFactory = require("../controller/controller-factory");
 const validateRequest = require("../middlewares/validation");
+const passport = require("passport");
 const {
   resetPasswordSchema,
   updatePasswordSchema,
@@ -25,15 +26,17 @@ router.patch(
   (req, res, next) => controller.resetPassword(req, res, next)
 ); //actual reset password
 
+router.post("/reset-token", (req, res, next) =>
+  controller.resteAccessToken(req, res, next)
+); //refresh access token
+
+router.use(passport.authenticate("jwt", { session: false }));
+
 router.patch(
   "/update-password",
   validateRequest(updatePasswordSchema),
   (req, res, next) => controller.updatePassword(req, res, next)
 ); //change password for logged in user
-
-router.post("/reset-token", (req, res, next) =>
-  controller.resteAccessToken(req, res, next)
-); //refresh access token
 
 router.post("/logout", (req, res, next) => controller.logout(req, res, next)); //logout
 module.exports = router;

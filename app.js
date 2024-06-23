@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const socketio = require("socket.io");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
+const passport = require("./middlewares/passport.js/passport.config");
 const employeeRouter = require("./routes/employee");
 const customerRouter = require("./routes/customer");
 const businessRouter = require("./routes/business");
@@ -19,6 +20,7 @@ const server = createServer(app);
 const io = socketio(server);
 app.use(express.json());
 app.use(cookieParser());
+app.use(passport.initialize());
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(morgan("dev"));
 

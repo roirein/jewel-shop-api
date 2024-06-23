@@ -3,9 +3,12 @@ const ControllerFactory = require("../controller/controller-factory");
 const validateRequest = require("../middlewares/validation");
 const { customerSchema, baseUserSchema } = require("../validations/user");
 const userUpload = require("../middlewares/multer.config");
+const passport = require("passport");
 
 const customerController = ControllerFactory.createCustomerController();
 const router = express.Router();
+
+router.use(passport.authenticate("jwt", { session: false }));
 
 router.post("/:businessId", validateRequest(customerSchema), (req, res, next) =>
   customerController.createCustomer(req, res, next)
