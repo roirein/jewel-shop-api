@@ -1,7 +1,7 @@
 const { ExtractJwt, Strategy } = require("passport-jwt");
 const passport = require("passport");
-const resourceManager = require("../../resource-manager");
-const RESOURCES_TYPES = require("../../resource-manager/definitions");
+const resourceManager = require("../resource-manager");
+const RESOURCES_TYPES = require("../resource-manager/definitions");
 
 const options = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const socketio = require("socket.io");
 const cookieParser = require("cookie-parser");
 require("dotenv").config();
-const passport = require("./middlewares/passport.js/passport.config");
+const passport = require("./middlewares/authentication");
 const employeeRouter = require("./routes/employee");
 const customerRouter = require("./routes/customer");
 const businessRouter = require("./routes/business");
