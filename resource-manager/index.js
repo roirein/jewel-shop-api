@@ -21,4 +21,7 @@ const dbs = {
 
 const resourceManager = new ResourceManager(dbs);
 
-module.exports = resourceManager;
+module.exports = {
+  resourceManager,
+  ResourceManager,
+};

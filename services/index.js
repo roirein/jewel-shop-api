@@ -6,7 +6,7 @@ const {
   RegistrationRequestService,
 } = require("./rest-services");
 const NotificationService = require("./notifications-service");
-const MailService = require("./mail-service");
+const MailService = require("./mail-service/index.js");
 
 module.exports = {
   AuthService,

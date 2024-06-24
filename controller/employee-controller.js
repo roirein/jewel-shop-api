@@ -13,7 +13,6 @@ class EmployeeController extends Controller {
 
   async createEmployee(req, res, next) {
     try {
-      console.log(req.body);
       if (!req.file) {
         throw new HTTPError("Image is required", "fail", 400);
       }

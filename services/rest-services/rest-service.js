@@ -1,4 +1,5 @@
-const resourceManager = require("../../resource-manager");
+const { resourceManager } = require("../../resource-manager");
+const Service = require("../service");
 
 class RestService extends Service {
   #resourceManager;

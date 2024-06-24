@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const resourceManager = require("../../../resource-manager");
-const RESOURCES_TYPES = require("../../resource-manager/definitions");
+const { RESOURCES_TYPES } = require("../../../definitions");
 const HTTPError = require("../../../errors/http-error");
 const crypto = require("crypto");
 const RestService = require("../rest-service");

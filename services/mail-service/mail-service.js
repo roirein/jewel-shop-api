@@ -13,6 +13,9 @@ class MailService extends Service {
         pass: process.env.MAIL_PASSWORD,
       },
     });
+  }
+
+  listen() {
     this.eventEmitter.onEvent("send-mail", this.handleMailEvent.bind(this));
   }
 

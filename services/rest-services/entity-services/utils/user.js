@@ -1,7 +1,7 @@
 const fs = require("fs").promises;
-const HTTPError = require("../../../errors/http-error");
-const RESOURCES_TYPES = require("../../../resource-manager/definitions");
-const ResourceManager = require("../../../resource-manager/resource-manager");
+const { HTTPError } = require("../../../../errors");
+const { RESOURCES_TYPES } = require("../../../../definitions");
+const { ResourceManager } = require("../../../../resource-manager");
 
 /**
  *

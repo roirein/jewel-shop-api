@@ -2,9 +2,8 @@ const express = require("express");
 const ControllerFactory = require("../controller/controller-factory");
 const validateRequest = require("../middlewares/validation");
 const { customerSchema, baseUserSchema } = require("../validations/user");
-const userUpload = require("../middlewares/multer.config");
 const passport = require("passport");
-const authorize = require("../middlewares/authorization");
+const { uploads, authorize } = require("../middlewares");
 
 const customerController = ControllerFactory.createCustomerController();
 const router = express.Router();
@@ -53,7 +52,7 @@ router.patch(
 router.patch(
   "/:customerId/image",
   authorize([], "customerId"),
-  userUpload.single("image"),
+  uploads.userUpload.single("image"),
   (req, res, next) => customerController.updateCustomerImage(req, res, next)
 );
 

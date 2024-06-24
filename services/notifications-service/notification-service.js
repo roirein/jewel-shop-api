@@ -1,25 +1,45 @@
 const Service = require("../service");
 
 class NotificationService extends Service {
-  #socket;
-  static #users = {};
+  #io;
+  #users;
   constructor(io) {
     super();
-    io.on("connection", (socket) => {
-      this.#socket = socket;
+    this.#io = io;
+    this.#users = {};
+  }
+
+  get io() {
+    return this.#io;
+  }
+
+  get users() {
+    return this.#users;
+  }
+
+  set users(updatedUsers) {
+    this.#users = updatedUsers;
+  }
+
+  listen() {
+    this.io.on("connection", (socket) => {
+      this.eventEmitter.onEvent(
+        "notification",
+        this.handleNotification.bind(this, socket)
+      );
+
+      socket.on("login", (data) => {
+        const loggedInUsers = {
+          ...this.users,
+          [data.id]: socket.id,
+        };
+        this.users = loggedInUsers;
+      });
     });
-    this.eventEmitter.onEvent(
-      "notification",
-      this.handleNotification.bind(this)
-    );
   }
 
-  get socket() {
-    return this.#socket;
-  }
-
-  handleNotification(data) {
-    this.socket.emit(data.type, data.content);
+  handleNotification(socket, data) {
+    socket.emit(data.type, data.content);
   }
 }
 

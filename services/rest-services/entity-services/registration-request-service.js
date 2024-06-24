@@ -1,8 +1,8 @@
 const { STATUS } = require("../../../consts/requests");
-const HTTPError = require("../../../errors/http-error");
-const RESOURCES_TYPES = require("../../../resource-manager/definitions");
-const { isBusinessExists } = require("../utils/business");
-const { checkContactInfoExists } = require("../utils/contact-info");
+const { HTTPError } = require("../../../errors");
+const { RESOURCES_TYPES } = require("../../../definitions");
+const { isBusinessExists } = require("./utils/business");
+const { checkContactInfoExists } = require("./utils/contact-info");
 const BaseEntityService = require("./base-entity-service");
 
 class RegistrationRequestService extends BaseEntityService {
