@@ -63,4 +63,4 @@ class MailService extends Service {
   }
 }
 
-module.exports = new MailService();
+module.exports = MailService;

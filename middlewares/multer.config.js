@@ -30,4 +30,4 @@ const userUpload = multer({
   },
 });
 
-module.exports = userUpload;
+module.exports = { userUpload };

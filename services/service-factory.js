@@ -1,4 +1,4 @@
-const AuthService = require("./rest-services/auth-service");
+const AuthService = require("./rest-services/auth/auth-service");
 const BusinessService = require("./rest-services/entity-services/business-service");
 const CustomerService = require("./rest-services/entity-services/customer-service");
 const EmployeeService = require("./rest-services/entity-services/employee-service");

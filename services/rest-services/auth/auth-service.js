@@ -1,21 +1,14 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const resourceManager = require("../../resource-manager");
+const resourceManager = require("../../../resource-manager");
 const RESOURCES_TYPES = require("../../resource-manager/definitions");
-const Service = require("../service");
-const HTTPError = require("../../errors/http-error");
+const HTTPError = require("../../../errors/http-error");
 const crypto = require("crypto");
+const RestService = require("../rest-service");
 
-class AuthService extends Service {
-  #resourceManager;
-
+class AuthService extends RestService {
   constructor() {
     super();
-    this.#resourceManager = resourceManager;
-  }
-
-  get resourceManager() {
-    return this.#resourceManager;
   }
 
   #generateToken(data, secret, expiresIn) {

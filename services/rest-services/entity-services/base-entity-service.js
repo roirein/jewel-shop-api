@@ -1,15 +1,13 @@
 const HTTPError = require("../../../errors/http-error");
 const resourceManager = require("../../../resource-manager");
-const Service = require("../../service");
+const RestService = require("../rest-service");
 
-class BaseEntityService extends Service {
+class BaseEntityService extends RestService {
   #resourceType;
-  #resourceManager;
 
   constructor(resourceType) {
     super();
     this.#resourceType = resourceType;
-    this.#resourceManager = resourceManager;
   }
 
   handleEntityServiceError(error) {
@@ -21,10 +19,6 @@ class BaseEntityService extends Service {
 
   get resourceType() {
     return this.#resourceType;
-  }
-
-  get resourceManager() {
-    return this.#resourceManager;
   }
 
   async createResource(resourceContent) {
