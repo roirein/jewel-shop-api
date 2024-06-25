@@ -32,10 +32,14 @@ class ResourceManager {
     }
   }
 
-  async findOne(resourceType, query) {
+  async findOne(resourceType, query, fields = "") {
     try {
       const resourceDB = this.getResourceDB(resourceType);
-      const resource = await resourceDB.findOne(query);
+      let resourcePromise = resourceDB.findOne(query);
+      if (fields) {
+        resourcePromise = resourcePromise.select(fields);
+      }
+      const resource = await resourcePromise;
       return resource ? resource._doc : null;
     } catch (err) {
       throw err;

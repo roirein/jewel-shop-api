@@ -25,7 +25,7 @@ class NotificationService extends Service {
     this.io.on("connection", (socket) => {
       this.eventEmitter.onEvent(
         "notification",
-        this.handleNotification.bind(this, socket)
+        this.handleNotification.bind(this)
       );
 
       socket.on("login", (data) => {
@@ -35,11 +35,23 @@ class NotificationService extends Service {
         };
         this.users = loggedInUsers;
       });
+
+      socket.on("disconnect", () => {
+        const updatedUsers = Object.fromEntries(
+          Object.entries(this.users).filter(([key, value]) => {
+            return value !== socket.id;
+          })
+        );
+        this.users = updatedUsers;
+      });
     });
   }
 
-  handleNotification(socket, data) {
-    socket.emit(data.type, data.content);
+  handleNotification(data) {
+    const userSocket = this.users[data.userId];
+    if (userSocket) {
+      this.io.to(userSocket).emit(data.type, data.content);
+    }
   }
 }
 

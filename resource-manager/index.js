@@ -5,6 +5,7 @@ const {
   Business,
   RegistrationRequest,
   Token,
+  Notification,
 } = require("../models");
 const { RESOURCES_TYPES } = require("../definitions");
 const ResourceManager = require("./resource-manager");
@@ -15,7 +16,7 @@ const dbs = {
   [RESOURCES_TYPES.CUSTOMER]: Customer,
   [RESOURCES_TYPES.BUSINESS]: Business,
   [RESOURCES_TYPES.REGISTRATION_REQUEST]: RegistrationRequest,
-  //[RESOURCES_TYPES.NOTIFICATION]: Notification,
+  [RESOURCES_TYPES.NOTIFICATION]: Notification,
   [RESOURCES_TYPES.TOKEN]: Token,
 };
 

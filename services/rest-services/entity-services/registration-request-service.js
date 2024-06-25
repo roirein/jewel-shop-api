@@ -53,7 +53,7 @@ class RegistrationRequestService extends BaseEntityService {
       const managerId = await this.resourceManager.findOne(
         RESOURCES_TYPES.EMPLOYEE,
         { role: "manager" },
-        { fields: "_id" }
+        "_id"
       );
       const {
         notificationType,
@@ -66,7 +66,7 @@ class RegistrationRequestService extends BaseEntityService {
         RESOURCES_TYPES.NOTIFICATION,
         {
           notificationType: "registration-request",
-          receiver: managerId,
+          receiver: managerId._id,
           resourceId: _id,
           resourceType: "RegistrationRequest",
         }
@@ -75,6 +75,7 @@ class RegistrationRequestService extends BaseEntityService {
         event: "notification",
         data: {
           type: notificationType,
+          userId: managerId._id.toString(),
           content: {
             read,
             createdAt,

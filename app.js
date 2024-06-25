@@ -12,7 +12,8 @@ const businessRouter = require("./routes/business");
 const requestsRouter = require("./routes/registration-request");
 const authRouter = require("./routes/auth");
 const morgan = require("morgan");
-const { MailService } = require("./services");
+const { MailService, NotificationService } = require("./services");
+const { Employee } = require("./models");
 
 const app = express();
 const server = createServer(app);
@@ -42,7 +43,9 @@ app.use((err, req, res, next) => {
 });
 
 const mailService = new MailService();
+const notificationService = new NotificationService(io);
 mailService.listen();
+notificationService.listen();
 
 server.listen(port, () => {
   console.log(`Server is up and running on port ${port}`);

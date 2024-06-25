@@ -9,15 +9,15 @@ const router = express.Router();
 
 const employeeController = ControllerFactory.createEmployeeController();
 
+router.use(passport.authenticate("jwt", { session: false }));
+
 router.post(
   "/",
-  //authorize(["manager"]),
+  authorize(["manager"]),
   uploads.userUpload.single("image"),
   validateRequest(employeeSchema),
   (req, res, next) => employeeController.createEmployee(req, res, next)
 );
-
-router.use(passport.authenticate("jwt", { session: false }));
 
 router.get("/", authorize(["manager"]), (req, res, next) =>
   employeeController.getAllEmployees(req, res, next)

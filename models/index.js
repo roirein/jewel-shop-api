@@ -5,6 +5,7 @@ const {
   RegistrationRequest,
   Token,
   Customer,
+  Notification,
 } = require("./user");
 
 module.exports = {
@@ -14,4 +15,5 @@ module.exports = {
   RegistrationRequest,
   Token,
   Customer,
+  Notification,
 };

@@ -4,6 +4,7 @@ const Customer = require("./customer");
 const Employee = require("./employee");
 const Token = require("./token");
 const RegistrationRequest = require("./registration-request");
+const Notification = require("./notification");
 
 module.exports = {
   Business,
@@ -12,4 +13,5 @@ module.exports = {
   Employee,
   Token,
   RegistrationRequest,
+  Notification,
 };
