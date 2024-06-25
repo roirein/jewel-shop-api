@@ -1,15 +1,15 @@
 const express = require("express");
-const ControllerFactory = require("../controller/controller-factory");
 const validateRequest = require("../middlewares/validation");
 const passport = require("passport");
 const {
   resetPasswordSchema,
   updatePasswordSchema,
 } = require("../validations/password");
+const { ControllerFactory } = require("../factories");
 
 const router = express.Router();
 
-const controller = ControllerFactory.createAuthController();
+const controller = ControllerFactory.createController("auth");
 router.post("/login", (req, res, next) => controller.loginUser(req, res, next));
 
 router.post("/reset-password/request", (req, res, next) =>

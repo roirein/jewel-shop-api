@@ -1,11 +1,14 @@
 const express = require("express");
 const validateRequest = require("../middlewares/validation");
 const registrationRequestSchema = require("../validations/registration-request");
-const ControllerFactory = require("../controller/controller-factory");
 const passport = require("passport");
 const authorize = require("../middlewares/authorization");
+const { ControllerFactory } = require("../factories");
+const { RESOURCES_TYPES } = require("../definitions");
 
-const controller = ControllerFactory.createRegistrationRequestController();
+const controller = ControllerFactory.createController(
+  RESOURCES_TYPES.REGISTRATION_REQUEST
+);
 const router = express.Router();
 
 router.post("/", validateRequest(registrationRequestSchema), (req, res, next) =>

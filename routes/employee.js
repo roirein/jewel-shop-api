@@ -1,13 +1,16 @@
 const express = require("express");
-const ControllerFactory = require("../controller/controller-factory");
 const validateRequest = require("../middlewares/validation");
 const { employeeSchema, baseUserSchema } = require("../validations/user");
 const { uploads, authorize } = require("../middlewares");
 const passport = require("passport");
+const { ControllerFactory } = require("../factories");
+const { RESOURCES_TYPES } = require("../definitions");
 
 const router = express.Router();
 
-const employeeController = ControllerFactory.createEmployeeController();
+const employeeController = ControllerFactory.createController(
+  RESOURCES_TYPES.EMPLOYEE
+);
 
 router.use(passport.authenticate("jwt", { session: false }));
 
