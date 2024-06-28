@@ -1,6 +1,6 @@
 const HTTPError = require("../errors/http-error");
 
-const authorize = (roles, ownershipParam = undefined) => {
+const authorize = (authOptions) => {
   return async (req, res, next) => {
     try {
       if (!req.user) {
@@ -11,18 +11,43 @@ const authorize = (roles, ownershipParam = undefined) => {
         "fail",
         403
       );
-      if (req.user.userType === "customer" && !roles.includes("customer")) {
+      const userType = req.user.userType;
+      if (!authOptions.allowedUserTypes.includes(userType)) {
         throw authErr;
       }
-      if (req.user.userType === "employee" && !roles.includes(req.user.role)) {
-        throw authErr;
+      if (authOptions.self) {
+        const selfParam = userType === "customer" ? "customerId" : "employeeId";
+        if (req.user._id.toString() !== req.params[selfParam]) {
+          if (authOptions.self.only) {
+            //only = true -means that no one but the logged in user should do this operations, else, we keep the check
+            throw authErr;
+          }
+        }
       }
-      if (
-        ownershipParam &&
-        req.params[ownershipParam] &&
-        req.params[ownershipParam].toString() !== req.user._id.toString()
-      ) {
-        throw authErr;
+      if (userType === "employee") {
+        const role = req.user.role;
+        if (!authOptions.employeeRestrictions["roles"].includes(role)) {
+          throw authErr;
+        }
+      }
+      if (userType === "customer") {
+        const dependency = authOptions.customerRestrictions["paramDependency"];
+        if (dependency) {
+          const dependecyParam = req.params[dependency];
+          if (
+            !dependecyParam ||
+            req.user[dependency].toString() !== dependecyParam
+          ) {
+            throw authErr;
+          }
+        }
+        if (
+          authOptions.customerRestrictions["permission"] &&
+          authOptions.customerRestrictions["permission"] !==
+            req.user.permissionLevel
+        ) {
+          throw authErr;
+        }
       }
       next();
     } catch (err) {

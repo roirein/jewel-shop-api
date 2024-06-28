@@ -16,7 +16,12 @@ router.post("/", validateRequest(registrationRequestSchema), (req, res, next) =>
 );
 
 router.use(passport.authenticate("jwt", { session: false }));
-router.use(authorize(["manager"]));
+router.use(
+  authorize({
+    allowedUserTypes: ["employee"],
+    employeeRestrictions: { roles: ["manager"] },
+  })
+);
 
 router.get("/", (req, res, next) => controller.getAllRequests(req, res, next));
 

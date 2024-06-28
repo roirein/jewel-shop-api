@@ -24,7 +24,7 @@ class ControllerFactory {
       case RESOURCES_TYPES.REGISTRATION_REQUEST:
         return new RegistrationRequestController(service);
       case "auth":
-        return new AuthController();
+        return new AuthController(service);
       default:
         return null;
     }

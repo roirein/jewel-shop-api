@@ -1,6 +1,6 @@
 const { ExtractJwt, Strategy } = require("passport-jwt");
 const passport = require("passport");
-const resourceManager = require("../resource-manager");
+const { resourceManager } = require("../resource-manager");
 const { RESOURCES_TYPES } = require("../definitions");
 
 const options = {

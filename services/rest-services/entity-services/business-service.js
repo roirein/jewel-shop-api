@@ -60,7 +60,10 @@ class BusinessService extends BaseEntityService {
       }
       //delete customers belongs to the business
       const customersPromises = business.customers.map((customer) => {
-        return this.resourceManager.delete(RESOURCES_TYPES.CUSTOMER, customer);
+        return this.resourceManager.delete(
+          RESOURCES_TYPES.CUSTOMER,
+          customer.toString()
+        );
       });
       await Promise.all(customersPromises);
       // delete business

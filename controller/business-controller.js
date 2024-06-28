@@ -13,7 +13,7 @@ class BusinessController extends Controller {
   async createBusiness(req, res, next) {
     try {
       const business = await this.service.createBusiness(req.body);
-      res.status(200).json({
+      res.status(201).json({
         status: "success",
         data: {
           business,
