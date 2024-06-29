@@ -5,6 +5,7 @@ const {
   CustomerService,
   RegistrationRequestService,
   NotificationsService,
+  ModelService,
 } = require("./entity-services");
 
 module.exports = {
@@ -14,4 +15,5 @@ module.exports = {
   CustomerService,
   RegistrationRequestService,
   NotificationsService,
+  ModelService,
 };

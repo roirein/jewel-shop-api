@@ -4,6 +4,7 @@ const EmployeeController = require("./employee-controller");
 const CustomerController = require("./customer-controller");
 const RegistrationRequestController = require("./registration-request-controller");
 const NotificationController = require("./notification-controller");
+const ModelController = require("./model-controller");
 
 module.exports = {
   AuthController,
@@ -12,4 +13,5 @@ module.exports = {
   CustomerController,
   RegistrationRequestController,
   NotificationController,
+  ModelController,
 };

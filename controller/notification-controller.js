@@ -2,8 +2,8 @@ const { RESOURCES_TYPES } = require("../definitions");
 const Controller = require("./controller");
 
 class NotificationController extends Controller {
-  constructor() {
-    super(RESOURCES_TYPES.NOTIFICATION);
+  constructor(service) {
+    super(service);
   }
 
   async retrieveNotifications(req, res, next) {

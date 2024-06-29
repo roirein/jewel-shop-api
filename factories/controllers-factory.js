@@ -5,6 +5,7 @@ const {
   RegistrationRequestController,
   AuthController,
   NotificationController,
+  ModelController,
 } = require("../controller");
 const { RESOURCES_TYPES } = require("../definitions");
 const RestServiceFactory = require("./rest-service-factory");
@@ -20,9 +21,11 @@ class ControllerFactory {
       case RESOURCES_TYPES.EMPLOYEE:
         return new EmployeeController(service);
       case RESOURCES_TYPES.NOTIFICATION:
-        return new NotificationController();
+        return new NotificationController(service);
       case RESOURCES_TYPES.REGISTRATION_REQUEST:
         return new RegistrationRequestController(service);
+      case RESOURCES_TYPES.MODEL:
+        return new ModelController(service);
       case "auth":
         return new AuthController(service);
       default:

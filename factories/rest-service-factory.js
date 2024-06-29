@@ -6,6 +6,7 @@ const {
   NotificationsService,
   RegistrationRequestService,
   AuthService,
+  ModelService,
 } = require("../services");
 
 class RestServiceFactory {
@@ -21,6 +22,8 @@ class RestServiceFactory {
         return new NotificationsService();
       case RESOURCES_TYPES.REGISTRATION_REQUEST:
         return new RegistrationRequestService();
+      case RESOURCES_TYPES.MODEL:
+        return new ModelService();
       case "auth":
         return new AuthService();
       default:

@@ -5,6 +5,7 @@ const {
   CustomerService,
   RegistrationRequestService,
   NotificationsService,
+  ModelService,
 } = require("./rest-services");
 const NotificationService = require("./notifications-service");
 const MailService = require("./mail-service/index.js");
@@ -18,4 +19,5 @@ module.exports = {
   NotificationsService,
   NotificationService,
   MailService,
+  ModelService,
 };

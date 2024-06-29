@@ -6,6 +6,7 @@ const RESOURCES_TYPES = {
   REGISTRATION_REQUEST: "registration request",
   NOTIFICATION: "notification",
   TOKEN: "token",
+  MODEL: "model",
 };
 
 module.exports = RESOURCES_TYPES;
