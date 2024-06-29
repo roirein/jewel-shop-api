@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { isAlpha } = require("validator");
+const { DBError } = require("../../errors");
 
 const jewelModelSchema = new mongoose.Schema({
   jewelType: {
@@ -9,6 +10,11 @@ const jewelModelSchema = new mongoose.Schema({
       values: ["ring", "earring", "bracelet", "necklace"],
       message: "Jewel type must be either ring, earring, bracelet or necklace",
     },
+  },
+  designer: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Employee",
+    required: true,
   },
   title: {
     type: String,
@@ -61,6 +67,20 @@ const jewelModelSchema = new mongoose.Schema({
       "approved",
     ],
   },
+});
+
+jewelModelSchema.pre("save", (next) => {
+  if (this.setting && (this.allowedSettings || this.allowedSettings.length)) {
+    throw new Error(
+      "model has exactly one setting or list of allowed settings, but cannot have both"
+    );
+  }
+  if (this.gold && (this.allowedGoldTypes || this.allowedGoldTypes.length)) {
+    throw new Error(
+      "model can be available in exactly one varaition of gold or have list of allowed variantions, but not both"
+    );
+  }
+  next();
 });
 
 const JewelModel = mongoose.model("Jewel Model", jewelModelSchema);

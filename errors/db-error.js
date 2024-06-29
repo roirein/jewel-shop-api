@@ -3,7 +3,6 @@ const HTTPError = require("./http-error");
 class DBError extends Error {
   constructor(error) {
     super();
-    console.log(error);
     this.type = "DBError";
     this.subtype = this.#setSubType(error);
     this.data = this.#setData(error);
