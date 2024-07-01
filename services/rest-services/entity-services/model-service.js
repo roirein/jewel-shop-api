@@ -23,9 +23,7 @@ class ModelService extends BaseEntityService {
       sketch,
       internal,
       setting,
-      allowedSettings,
-      gold,
-      alllowedGolds,
+      allowedGoldsTypes,
       desginer,
     } = this.createResource({
       ...data,
@@ -76,9 +74,7 @@ class ModelService extends BaseEntityService {
       sketch,
       internal,
       setting,
-      allowedSettings,
-      gold,
-      alllowedGolds,
+      allowedGoldsTypes,
       desginer,
     };
   }

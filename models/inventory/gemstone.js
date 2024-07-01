@@ -14,20 +14,10 @@ const gemstoneSchema = new mongoose.Schema({
     type: String,
     required: [true, "Color is required"], //add validation of color according to stone type
   },
-  size: {
-    type: Number,
-    required: [true, "Size is required"],
-    min: [0.1, "Size must be at least 0.1ct"],
-    max: [1.0, "Size maximum value is 1ct"],
-    validate: {
-      validator: (v) => (v * 10) % 10 === 0,
-      message: "size must be multiple of 0.1(0.1, 0.2 etc...)",
-    },
-  },
-  pricePerUnit: {
+  pricePerCarat: {
     type: Number,
     required: [true, "Price is required"],
-    min: [1, "Price must be a positive number"],
+    min: [0.01, "Price must be a positive number"],
   },
 });
 
